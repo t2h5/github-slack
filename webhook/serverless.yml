@@ -24,6 +24,8 @@ custom:
 functions:
   handler:
     handler: main.handler
+    environment:
+      WEBHOOK_SECRET: ${self:custom.config.webhook_secret}
     events:
       - http:
           method: post
