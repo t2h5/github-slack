@@ -1,0 +1,30 @@
+service: github-slack-webhook
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'ap-northeast-1'}
+  profile: ${self:custom.config.aws_profile}
+  memorySize: 512
+  timeout: 10
+  logRetentionInDays: 7
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+  - serverless-prune-plugin
+
+custom:
+  config: ${file(./config.yml)}
+  prune:
+    automatic: true
+    number: 5
+
+functions:
+  handler:
+    handler: main.handler
+    events:
+      - http:
+          method: post
+          path: /webhook

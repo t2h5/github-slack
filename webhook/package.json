@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "dev": "sls offline start",
+    "build": "sls package",
+    "deploy": "sls deploy -v"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.40",
+    "serverless": "^1.61.3",
+    "serverless-offline": "^5.12.1",
+    "serverless-plugin-typescript": "^1.1.9",
+    "serverless-prune-plugin": "^1.4.1",
+    "typescript": "^3.7.5"
+  },
+  "author": "tatsuya",
+  "license": "MIT"
+}
