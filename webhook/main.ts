@@ -1,28 +1,9 @@
 import {
   APIGatewayProxyEvent,
-  Context,
   APIGatewayProxyResult,
   Handler,
 } from 'aws-lambda'
 import { createHmac } from 'crypto'
-
-export const handler: Handler = async (
-  event: APIGatewayProxyEvent,
-  _context: Context,
-): Promise<APIGatewayProxyResult> => {
-  console.log(event)
-  if (verifySignature(event)) {
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ message: 'ok' }),
-    }
-  } else {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ message: 'not ok' }),
-    }
-  }
-}
 
 const verifySignature = (event: APIGatewayProxyEvent): boolean => {
   const webhookSecret = process.env.WEBHOOK_SECRET
@@ -44,3 +25,21 @@ const verifySignature = (event: APIGatewayProxyEvent): boolean => {
   }
   return true
 }
+
+export const handler: Handler = async (
+  event: APIGatewayProxyEvent,
+): Promise<APIGatewayProxyResult> => {
+  console.log(event.body)
+  if (verifySignature(event)) {
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: 'ok' }),
+    }
+  } else {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ message: 'not ok' }),
+    }
+  }
+}
+
