@@ -1,6 +1,7 @@
 {
   "scripts": {
     "dev": "sls offline start",
+    "logs": "sls logs -t -f handler",
     "build": "sls package",
     "deploy": "sls deploy -v"
   },
