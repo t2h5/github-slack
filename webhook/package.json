@@ -3,7 +3,7 @@
     "node": "12.x"
   },
   "scripts": {
-    "lint": "eslint main.ts",
+    "lint": "prettier --check *.ts",
     "dev": "sls offline start",
     "logs": "sls logs -t -f handler",
     "build": "sls package",
