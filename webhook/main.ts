@@ -3,7 +3,7 @@ import {
   APIGatewayProxyResult,
   Handler,
 } from 'aws-lambda'
-import { verifySignature } from './lib/auth'
+import { verifySignature } from './auth'
 
 export const handler: Handler = async (
   event: APIGatewayProxyEvent,
