@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent } from 'aws-lambda'
 import { createHmac } from 'crypto'
 
-export function verifySignature(event: APIGatewayProxyEvent): boolean {
+export const verifySignature = (event: APIGatewayProxyEvent): boolean => {
   const webhookSecret = process.env.WEBHOOK_SECRET
   if (!webhookSecret) {
     console.warn('webhook secret not found')

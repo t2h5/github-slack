@@ -26,6 +26,7 @@ functions:
     handler: main.handler
     environment:
       WEBHOOK_SECRET: ${self:custom.config.webhook_secret}
+      SLACK_WEBHOOK_URL: ${self:custom.config.slack_webhook_url}
     events:
       - http:
           method: post
