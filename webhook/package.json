@@ -3,21 +3,23 @@
     "node": "12.x"
   },
   "scripts": {
-    "lint": "eslint main.ts",
+    "lint": "eslint . --ext .ts",
     "dev": "sls offline start",
     "logs": "sls logs -t -f handler",
     "build": "sls package",
     "deploy": "sls deploy -v"
   },
   "dependencies": {
+    "@slack/webhook": "^5.0.2",
     "crypto": "^1.0.1"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.40",
-    "@typescript-eslint/eslint-plugin": "^2.18.0",
-    "@typescript-eslint/parser": "^2.18.0",
+    "@typescript-eslint/eslint-plugin": "^2.19.0",
+    "@typescript-eslint/parser": "^2.19.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
     "prettier": "^1.19.1",
     "serverless": "^1.61.3",
     "serverless-offline": "^5.12.1",
