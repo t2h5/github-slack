@@ -7,13 +7,22 @@ export const parseEvent = (
   const eventJson = JSON.parse(event.body || '')
   // pull_request_review
   if (eventJson.review) {
+    const repository = eventJson.repository
+    const pullRequest = eventJson.pull_request
+    const review = eventJson.review
+    let color = ''
+    if (review.state === 'approved') color = 'good'
+    if (review.state === 'changes_requested') color = 'warning'
+    const text = `${review.user.login} ${review.state} pull request`
+    const fields = [{ title: pullRequest.title, value: pullRequest.html_url }]
     return {
       attachments: [
         {
-          color: 'good',
-          title: eventJson.repository.name,
-          title_link: eventJson.repository.html_url, // eslint-disable-line @typescript-eslint/camelcase
-          text: 'review',
+          color,
+          title: repository.name,
+          title_link: repository.html_url, // eslint-disable-line @typescript-eslint/camelcase
+          text,
+          fields,
         },
       ],
     }
