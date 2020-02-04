@@ -17,19 +17,16 @@ export const handler: Handler = async (
       await postSlackMessage(message).catch(err => {
         console.error(err)
       })
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ message: 'ok' }),
-      }
     } else {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ message: 'not ok' }),
-      }
+      console.warn('no message')
+    }
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: 'ok' }),
     }
   } else {
     return {
-      statusCode: 400,
+      statusCode: 401,
       body: JSON.stringify({ message: 'not ok' }),
     }
   }
