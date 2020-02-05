@@ -27,7 +27,7 @@ export const handler: Handler = async (
   } else {
     return {
       statusCode: 401,
-      body: JSON.stringify({ message: 'not ok' }),
+      body: JSON.stringify({ message: 'unauthorized' }),
     }
   }
 }
