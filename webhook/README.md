@@ -27,3 +27,12 @@ Deploy Lambda function using [serverless](https://serverless.com/).
 $ yarn deploy
 # aws resouces will be created or updated
 ```
+
+## add webhook
+
+Open your repository Settings > Webhooks > Add webhook.
+
+- add API Gateway endpoint as *Payload URL*
+- choose `application/json` as *Content Type*
+- add webhook_secret to *Secret*
+- select events as you like
