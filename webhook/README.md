@@ -32,7 +32,8 @@ $ yarn deploy
 
 Open your repository Settings > Webhooks > Add webhook.
 
-- add API Gateway endpoint as *Payload URL*
-- choose `application/json` as *Content Type*
-- add webhook_secret to *Secret*
-- select events as you like
+- Payload URL: API Gateway endpoint
+- Content Type: `application/json`
+- Secret: your `webhook_secret`
+- Events: select events as you wish
+  - see `parser.ts` for available events
