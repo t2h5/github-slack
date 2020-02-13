@@ -10,7 +10,7 @@ import { postSlackMessage } from './slack'
 export const handler: Handler = async (
   event: APIGatewayProxyEvent,
 ): Promise<APIGatewayProxyResult> => {
-  console.log(event.body)
+  console.log(JSON.stringify(JSON.parse(event.body || '""'), null, 2))
   if (verifySignature(event)) {
     const message = parseEvent(event)
     if (message) {
