@@ -1,4 +1,5 @@
 import { APIGatewayProxyEvent } from 'aws-lambda'
+import { MessageAttachment } from '@slack/types'
 import { IncomingWebhookSendArguments } from '@slack/webhook'
 
 export const parseEvent = (
@@ -9,67 +10,52 @@ export const parseEvent = (
   const eventJson = JSON.parse(event.body || '')
   const date = new Date()
   const ts = date.getTime().toString()
-  // pull_request
-  if (eventType === 'pull_request') {
-    // review_requested
-    if (eventJson.action === 'review_requested') {
+  const attachment: MessageAttachment = { color: '', ts }
+  switch (eventType) {
+    case 'pull_request': {
       const repository = eventJson.repository
       const pullRequest = eventJson.pull_request
-      const reviewers = pullRequest.requested_reviewers
-        .map(reviewer => {
-          return reviewer.login
-        })
-        .join(', ')
-      const color = 'good'
-      const text = 'review requested'
-      const fields = [
-        {
-          title: pullRequest.title,
-          value: pullRequest.html_url,
-        },
-        {
-          title: 'reviewers',
-          value: reviewers,
-        },
-      ]
-      return {
-        attachments: [
+      // review_requested
+      if (eventJson.action === 'review_requested') {
+        const reviewers = pullRequest.requested_reviewers
+          .map(reviewer => {
+            return reviewer.login
+          })
+          .join(', ')
+        attachment.color = 'good'
+        attachment.title = repository.name
+        attachment.title_link = repository.html_url // eslint-disable-line @typescript-eslint/camelcase
+        attachment.text = 'review requested'
+        attachment.fields = [
           {
-            color,
-            title: repository.name,
-            title_link: repository.html_url, // eslint-disable-line @typescript-eslint/camelcase
-            text,
-            fields,
-            ts,
+            title: pullRequest.title,
+            value: pullRequest.html_url,
           },
-        ],
+          {
+            title: 'reviewers',
+            value: reviewers,
+          },
+        ]
+        return { attachments: [attachment] }
       }
+      break
     }
-  }
-  // pull_request_review
-  if (eventType === 'pull_request_review') {
-    const pullRequest = eventJson.pull_request
-    const review = eventJson.review
-    let color = ''
-    if (review.state === 'approved') color = 'good'
-    if (review.state === 'changes_requested') color = 'warning'
-    let text = `${review.user.login} ${review.state} pull request`
-    if (review.body) {
-      text = [text, review.body].join('\n')
+    case 'pull_request_review': {
+      const pullRequest = eventJson.pull_request
+      const review = eventJson.review
+      if (review.state === 'approved') attachment.color = 'good'
+      if (review.state === 'changes_requested') attachment.color = 'warning'
+      attachment.title = pullRequest.title
+      attachment.title_link = pullRequest.html_url // eslint-disable-line @typescript-eslint/camelcase
+      attachment.text = `${review.user.login} ${review.state} pull request`
+      if (review.body) {
+        attachment.text = [attachment.text, review.body].join('\n')
+      }
+      attachment.fields = [{ title: 'link', value: review.html_url }]
+      return { attachments: [attachment] }
     }
-    const fields = [{ title: 'link', value: review.html_url }]
-    return {
-      attachments: [
-        {
-          color,
-          title: pullRequest.title,
-          title_link: pullRequest.html_url, // eslint-disable-line @typescript-eslint/camelcase
-          text,
-          fields,
-          ts,
-        },
-      ],
-    }
+    default:
+      break
   }
   return null
 }
