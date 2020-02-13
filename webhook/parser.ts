@@ -32,7 +32,7 @@ export const parseEvent = (
             value: pullRequest.html_url,
           },
           {
-            title: 'reviewers',
+            title: 'assigned reviewers',
             value: reviewers,
           },
         ]
@@ -47,12 +47,27 @@ export const parseEvent = (
       if (review.state === 'changes_requested') attachment.color = 'warning'
       attachment.title = pullRequest.title
       attachment.title_link = pullRequest.html_url // eslint-disable-line @typescript-eslint/camelcase
-      attachment.text = `${review.user.login} ${review.state} pull request`
+      attachment.text = `${review.user.login} ${review.state}`
       if (review.body) {
         attachment.text = [attachment.text, review.body].join('\n')
       }
       attachment.fields = [{ title: 'link', value: review.html_url }]
       return { attachments: [attachment] }
+    }
+    case 'pull_request_review_comment': {
+      const pullRequest = eventJson.pull_request
+      const comment = eventJson.comment
+      if (eventJson.action === 'created') {
+        attachment.title = pullRequest.title
+        attachment.title_link = pullRequest.html_url // eslint-disable-line @typescript-eslint/camelcase
+        attachment.text = `${comment.user.login} commented`
+        if (comment.body) {
+          attachment.text = [attachment.text, comment.body].join('\n')
+        }
+        attachment.fields = [{ title: 'link', value: comment.html_url }]
+        return { attachments: [attachment] }
+      }
+      break
     }
     default:
       break
