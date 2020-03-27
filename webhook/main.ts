@@ -14,7 +14,7 @@ export const handler: Handler = async (
   if (verifySignature(event)) {
     const message = parseEvent(event)
     if (message) {
-      await postSlackMessage(message).catch(err => {
+      await postSlackMessage(message).catch((err) => {
         console.error(err)
       })
     } else {

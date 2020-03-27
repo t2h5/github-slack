@@ -18,7 +18,7 @@ export const parseEvent = (
       // review_requested
       if (eventJson.action === 'review_requested') {
         const reviewers = pullRequest.requested_reviewers
-          .map(reviewer => {
+          .map((reviewer) => {
             return reviewer.login
           })
           .join(', ')

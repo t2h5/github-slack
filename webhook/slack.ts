@@ -11,7 +11,7 @@ export const postSlackMessage = async (
     .then(() => {
       return true
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err)
       return false
     })
