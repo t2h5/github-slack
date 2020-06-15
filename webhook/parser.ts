@@ -24,7 +24,7 @@ export const parseEvent = (
           .join(', ')
         attachment.color = 'good'
         attachment.title = repository.name
-        attachment.title_link = repository.html_url // eslint-disable-line @typescript-eslint/camelcase
+        attachment.title_link = repository.html_url
         attachment.text = 'review requested'
         attachment.fields = [
           {
@@ -46,7 +46,7 @@ export const parseEvent = (
       if (review.state === 'approved') attachment.color = 'good'
       if (review.state === 'changes_requested') attachment.color = 'warning'
       attachment.title = pullRequest.title
-      attachment.title_link = pullRequest.html_url // eslint-disable-line @typescript-eslint/camelcase
+      attachment.title_link = pullRequest.html_url
       attachment.text = `${review.user.login} ${review.state}`
       if (review.body) {
         attachment.text = [attachment.text, review.body].join('\n')
@@ -59,7 +59,7 @@ export const parseEvent = (
       const comment = eventJson.comment
       if (eventJson.action === 'created') {
         attachment.title = pullRequest.title
-        attachment.title_link = pullRequest.html_url // eslint-disable-line @typescript-eslint/camelcase
+        attachment.title_link = pullRequest.html_url
         attachment.text = `${comment.user.login} commented`
         if (comment.body) {
           attachment.text = [attachment.text, comment.body].join('\n')
