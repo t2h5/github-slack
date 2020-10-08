@@ -63,9 +63,10 @@ export const parseEvent = (
         attachment.text = `${comment.user.login} commented`
         if (comment.body) {
           attachment.text = [attachment.text, comment.body].join('\n')
+          attachment.fields = [{ title: 'link', value: comment.html_url }]
+          return { attachments: [attachment] }
         }
-        attachment.fields = [{ title: 'link', value: comment.html_url }]
-        return { attachments: [attachment] }
+        return null
       }
       break
     }
