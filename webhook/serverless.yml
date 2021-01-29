@@ -9,6 +9,9 @@ provider:
   memorySize: 256
   timeout: 10
   logRetentionInDays: 7
+  lambdaHashingVersion: 20201221
+  apiGateway:
+    shouldStartNameWithService: true
 
 plugins:
   - serverless-plugin-typescript
