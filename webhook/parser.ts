@@ -48,7 +48,7 @@ export const parseEvent = (
       attachment.title = pullRequest.title
       attachment.title_link = pullRequest.html_url
       attachment.text = `${review.user.login} ${review.state}`
-      if (review.body !== null && review.body.length > 0) {
+      if (review.body !== null) {
         attachment.text = [attachment.text, review.body].join('\n')
         attachment.fields = [{ title: 'link', value: review.html_url }]
         return { attachments: [attachment] }
@@ -62,7 +62,7 @@ export const parseEvent = (
         attachment.title = pullRequest.title
         attachment.title_link = pullRequest.html_url
         attachment.text = `${comment.user.login} commented`
-        if (comment.body !== null && comment.body.length > 0) {
+        if (comment.body !== null) {
           attachment.text = [attachment.text, comment.body].join('\n')
           attachment.fields = [{ title: 'link', value: comment.html_url }]
           return { attachments: [attachment] }
